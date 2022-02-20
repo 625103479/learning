@@ -144,7 +144,7 @@ const metacharacters = () => {
    * 例如，"Windows(?=95|98|NT|2000)"能匹配"Windows2000"中的"Windows"，但不能匹配"Windows3.1"中的"Windows"。
    * 预查不消耗字符，也就是说，在一个匹配发生后，在最后一次匹配之后立即开始下一次匹配的搜索，而不是从包含预查的字符之后开始。
    */ {
-    console.log('字符: (?:pattern)')
+    console.log('字符: (?=pattern)')
     let regexOne = /Windows(?=95|98|NT|2000)/
     console.log('Windows2000'.match(regexOne))
     console.log('Windows3.1'.match(regexOne))
@@ -160,13 +160,126 @@ const metacharacters = () => {
    * 例如"Windows(?!95|98|NT|2000)"能匹配"Windows3.1"中的"Windows"，但不能匹配"Windows2000"中的"Windows"。
    * 预查不消耗字符，也就是说，在一个匹配发生后，在最后一次匹配之后立即开始下一次匹配的搜索，而不是从包含预查的字符之后开始。
    */ {
-    console.log('字符: (?:pattern)')
+    console.log('字符: (?!pattern)')
     let regexOne = /Windows(?!95|98|NT|2000)/
     console.log('Windows2000'.match(regexOne))
     console.log('Windows3.1'.match(regexOne))
-    let regexTwo = /(?!上海市).*?区/
+  }
+
+    /**
+   * character: (?<=pattern)
+   * describe:反向(look behind)肯定预查，与正向肯定预查类似，只是方向相反。
+   * 例如，"(?<=95|98|NT|2000)Windows"能匹配"2000Windows"中的"Windows"，但不能匹配"3.1Windows"中的"Windows"
+   */ {
+    console.log('字符: (?<=pattern)')
+    let regexOne = /(?<=95|98|NT|2000)Windows/
+    console.log('2000Windows'.match(regexOne))
+    console.log('3.1Windows'.match(regexOne))
+    let regexTwo = /(?<=上海市).*?区/
     console.log('上海市浦东新区'.match(regexTwo))
     console.log('杭州市余杭区'.match(regexTwo))
+  }
+
+  /**
+   * character: ((?<!pattern))
+   * describe:反向否定预查，与正向否定预查类似，只是方向相反。
+   * 例如"(?<!95|98|NT|2000)Windows"能匹配"3.1Windows"中的"Windows"，但不能匹配"2000Windows"中的"Windows"。
+   */ {
+    console.log('字符: (?<=pattern)')
+    let regexOne = /(?<!95|98|NT|2000)Windows/
+    console.log('2000Windows'.match(regexOne))
+    console.log('3.1Windows'.match(regexOne))
+  }
+
+  /**
+   * character: |
+   * describe:匹配 x 或 y。例如，'z|food' 能匹配 "z" 或 "food"。'(z|f)ood' 则匹配 "zood" 或 "food"。
+   */ {
+    console.log('字符: |')
+    let regexOne = /(z|f)ood/
+    console.log('zood'.match(regexOne))
+    console.log('food'.match(regexOne))
+    console.log('bood'.match(regexOne))
+  }
+  /**
+   * character: []
+   * describe:字符集合。匹配所包含的任意一个字符。例如， '[abc]' 可以匹配 "plain" 中的 'a'。
+   */ {
+    console.log('字符: []')
+    let regexOne = /[abc]/
+    console.log('plain'.match(regexOne))
+    console.log('pink'.match(regexOne))
+    let regexOtwo = /[zf]ood/
+    console.log('zood'.match(regexOtwo))
+    console.log('food'.match(regexOtwo))
+    console.log('bood'.match(regexOtwo))
+  }
+   /**
+   * character: [^]
+   * describe:负值字符集合。匹配未包含的任意字符。例如， '[^abc]' 可以匹配 "plain" 中的'p'、'l'、'i'、'n'。
+   */ {
+    console.log('字符: [^]')
+    let regexOne = /[^abc]*/
+    console.log('plain'.match(regexOne))
+    console.log('pink'.match(regexOne))
+    let regexOtwo = /[^zf]ood/
+    console.log('zood'.match(regexOtwo))
+    console.log('food'.match(regexOtwo))
+    console.log('bood'.match(regexOtwo))
+  }
+
+  /**
+   * character: [a-z]
+   * describe:字符范围。匹配指定范围内的任意字符。例如，'[a-z]' 可以匹配 'a' 到 'z' 范围内的任意小写字母字符。
+   */ {
+    console.log('字符: [a-z]')
+    let regexOne = /[a-z]+/
+    console.log('plain'.match(regexOne))
+    console.log('pink'.match(regexOne))
+    console.log('Pink'.match(regexOne))
+    console.log('pi2nk'.match(regexOne))
+  }
+
+   /**
+   * character: [^a-z]
+   * describe:负值字符范围。匹配任何不在指定范围内的任意字符。例如，'[^a-z]' 可以匹配任何不在 'a' 到 'z' 范围内的任意字符。
+   */ {
+    console.log('字符: [^a-z]')
+    let regexOne = /[^a-z]+/
+    console.log('plain'.match(regexOne))
+    console.log('pink'.match(regexOne))
+    console.log('Pink'.match(regexOne))
+    console.log('pi2nk'.match(regexOne))
+  }
+
+   /**
+   * character: \b
+   * describe:匹配一个单词边界，也就是指单词和空格间的位置。例如， 'er\b' 可以匹配"never" 中的 'er'，但不能匹配 "verb" 中的 'er'。
+   */ {
+    console.log('字符: \\b')
+    let regexOne = /er\B/
+    console.log('verb'.match(regexOne))
+    console.log('never'.match(regexOne))
+  }
+
+    /**
+   * character: \d
+   * describe:匹配一个数字字符。等价于 [0-9]。
+   */ {
+    console.log('字符: \\d')
+    let regexOne = /\d+/
+    console.log('asdas1212'.match(regexOne))
+    console.log('1212adsa'.match(regexOne))
+  }
+
+    /**
+   * character: \D
+   * describe:匹配一个非数字字符。等价于 [^0-9]。
+   */ {
+    console.log('字符: \\D')
+    let regexOne = /\D+/
+    console.log('asdas1212'.match(regexOne))
+    console.log('1212adsa'.match(regexOne))
   }
 }
 
